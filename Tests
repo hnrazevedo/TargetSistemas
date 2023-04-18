@@ -1,0 +1,88 @@
+<?php
+
+/* Job Rotation 2 */
+echo '<h1>Job Rotation 2</h1>';
+function fibonacci($q, $z = false){
+	if($q >= 2){ 
+		$f = ($z) ? [0,1] : [1,1]; 
+		for($i = 2; $i < $q; $i++){
+			$f[$i] = $f[$i-1] + $f[$i-2];		
+		}
+		return $f;
+	}
+	return ($q == 1) ? [1] : [];
+}
+
+function inFibonacci($n):bool {
+    return  in_array($n,fibonacci($n+5, true));
+}
+
+$nTest = 2;
+$test = inFibonacci($nTest);
+echo 'O número '.$nTest.' '.(($test) ? 'está' : 'não está'). ' na sequência Fibonacci!'; 
+
+
+
+/* Job Rotation 3 */
+echo '<h1>Job Rotation 3</h1>';
+$json = json_decode(file_get_contents(__DIR__.'dados.json'), true);
+$faturamento = [
+    'maior' => ['dia'=>0,'valor'=>0],
+    'menor' => ['dia'=>0,'valor'=>0],
+    'media' => 0,
+    'maiorMedia' => []
+];
+
+$dias = count($json);
+foreach($json as $dado){
+    if($dado['valor'] == 0){
+        $dias--;
+        continue;
+    }
+    $faturamento = [
+        'maior' => ($dado['valor'] > $faturamento['maior']['valor']) ? $dado : $faturamento['maior'],
+        'menor' => ($dado['valor'] < $faturamento['menor']['valor'] || $faturamento['menor']['valor'] === 0) ? $dado : $faturamento['menor'],
+        'media' => $faturamento['media'] + $dado['valor'],
+        'maiorMedia' => []
+    ];
+}
+
+$faturamento['media'] = $faturamento['media']/$dias;
+
+foreach($json as $dado){
+    if($dado['valor'] == 0){
+        $dias--;
+        continue;
+    }
+    $faturamento['maiorMedia'] = ($dado['valor'] > $faturamento['media']) ? array_merge($faturamento['maiorMedia'],[$dado['dia']]): $faturamento['maiorMedia'];
+}
+
+echo '<pre>';
+var_dump($faturamento);
+
+
+/* Job Rotation 4 */
+echo '<h1>Job Rotation 4</h1>';
+$SP = 67836.43;
+$RJ = 36678.66;
+$MG = 29229.88;
+$ES = 27165.48;
+$Outros = 19849.53;
+
+$total = $SP+$RJ+$MG+$ES+$Outros;
+
+echo 'SP:'. round(($SP*100)/$total,2).'<br>';
+echo 'RJ:'. round(($RJ*100)/$total,2).'<br>';
+echo 'MG:'. round(($MG*100)/$total,2).'<br>';
+echo 'ES:'. round(($ES*100)/$total,2).'<br>';
+echo 'Outros:'. round(($Outros*100)/$total,2).'<br>';
+
+
+/* Job Rotation 5 */
+echo '<h1>Job Rotation 5</h1>';
+$string = 'Nao e tao dificil o quanto parece';
+$reverse = '';
+for($i = strlen($string); $i >= 0; $i--){
+    $reverse .= substr($string,$i,1);
+}
+var_dump($reverse);
